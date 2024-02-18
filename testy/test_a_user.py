@@ -36,6 +36,7 @@ class TestFindUserWithCamera(unittest.TestCase):
         response_no_camera = self.app.get('/find_user_with_camera?nazwa_osoby=Adam Malysz')
         data_no_camera = response_no_camera.get_json()
         self.assertEqual(response_no_camera.status_code, 200)
+        print(data_no_camera['blad'])  # Debugging line
         self.assertIn('Adam Malysz', data_no_camera['blad'])
 
 if __name__ == '__main__':

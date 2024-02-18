@@ -15,14 +15,13 @@ class TestDeleteUser(unittest.TestCase):
             db.drop_all()
 
     def test_delete_user(self):
-        user = User(name='Adam Malysz', phone_number='999')
         with app.app_context():
+            user = User(name='Adam Malysz', phone_number='999')
             db.session.add(user)
             db.session.commit()
 
-        response = self.app.delete(f'/delete_user/{user.id}')
-        self.assertEqual(response.status_code, 200)
-        with app.app_context():
+            response = self.app.delete(f'/delete_user/{user.id}')
+            self.assertEqual(response.status_code, 200)
             self.assertEqual(User.query.count(), 0)
 
 if __name__ == '__main__':

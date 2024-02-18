@@ -1,7 +1,7 @@
 import unittest
 from main import app, db, User
 
-class TestDeleteUser(unittest.TestCase):
+class TestAddUser(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
@@ -14,16 +14,12 @@ class TestDeleteUser(unittest.TestCase):
             db.session.remove()
             db.drop_all()
 
-    def test_delete_user(self):
-        user = User(name='Adam Malysz', phone_number='999')
-        with app.app_context():
-            db.session.add(user)
-            db.session.commit()
-
-        response = self.app.delete(f'/delete_user/{user.id}')
+    def test_add_user(self):
+        data = {'name': 'Adam Lata', 'phone_number': '444'}
+        response = self.app.post('/add_user', json=data)
         self.assertEqual(response.status_code, 200)
         with app.app_context():
-            self.assertEqual(User.query.count(), 0)
+            self.assertEqual(User.query.count(), 1)
 
 if __name__ == '__main__':
     unittest.main()

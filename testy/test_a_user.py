@@ -1,4 +1,4 @@
-import testy
+import unittest
 from main import app, db, User
 
 class TestAddUser(unittest.TestCase):
@@ -18,5 +18,4 @@ class TestAddUser(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.query.count(), 1)
 
-if __name__ == '__main__':
-    testy.main()
+if __name__ == '__main__': unittest.main()

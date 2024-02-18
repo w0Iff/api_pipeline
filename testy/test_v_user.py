@@ -1,4 +1,4 @@
-import testy
+import unittest
 from main import app, db, User
 
 class TestViewUsers(unittest.TestCase):
@@ -23,5 +23,4 @@ class TestViewUsers(unittest.TestCase):
         data = response.get_json()
         self.assertEqual(len(data['osoby']), 2)
 
-if __name__ == '__main__':
-    testy.main()
+if __name__ == '__main__': unittest.main()

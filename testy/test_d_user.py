@@ -1,4 +1,4 @@
-import testy
+import unittest
 from main import app, db, User
 
 class TestDeleteUser(unittest.TestCase):
@@ -21,5 +21,4 @@ class TestDeleteUser(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(User.query.count(), 0)
 
-if __name__ == '__main__':
-    testy.main()
+ifif __name__ == '__main__': unittest.main()

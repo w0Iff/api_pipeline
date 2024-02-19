@@ -1,1 +1,1 @@
-[![PIPELINE API](https://github.com/w0Iff/api_pipeline/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/w0Iff/api_pipeline/actions)
+[![PIPELINE API](https://github.com/w0Iff/api_pipeline/actions/workflows/pipeline.yml/badge.svg?branch=main&event=workflow_run)](https://github.com/w0Iff/api_pipeline/actions/workflows/pipeline.yml)

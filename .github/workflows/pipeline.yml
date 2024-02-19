@@ -1,5 +1,5 @@
-name: PIPELINE API
-
+# .github/workflows/complete_workflow.yml
+name: Complete Workflow
 on:
   push:
     branches:
@@ -78,4 +78,19 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: Depcheck report
-          path: ${{github.workspace}}/reports
+          path: ${{ github.workspace }}/reports
+
+  hawkscan:
+    name: HawkScan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Run Nginx
+        run: docker run --rm --detach --publish 8080:80 --name nginx_test nginx
+
+      - name: Run HawkScan
+        uses: stackhawk/hawkscan-action@v2
+        with:
+          apiKey: ${{ secrets.HAWK_API_KEY }}

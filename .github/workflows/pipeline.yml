@@ -23,5 +23,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt --use-deprecated=legacy-resolver
 
+    - name: Install OWASP ZAP
+      run: |
+        choco install owasp-zap
+
     - name: Run testy
       run: python -m unittest discover -s testy -p '*_user.py'
+
+    - name: DAST Test
+      run: |
+        zap-baseline.py -t http://localhost:5000

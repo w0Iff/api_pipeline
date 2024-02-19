@@ -79,3 +79,33 @@ jobs:
         with:
           name: Depcheck report
           path: ${{github.workspace}}/reports
+
+  nikto_scan:
+    name: Nikto Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Nikto
+        run: sudo apt-get install nikto
+
+      - name: Install ngrok
+        run: |
+          wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+          unzip ngrok-stable-linux-amd64.zip
+          sudo mv ngrok /usr/local/bin/ngrok
+          rm ngrok-stable-linux-amd64.zip
+
+      - name: Start ngrok
+        run: ngrok http 80 --log=stdout | grep -Eo "http://[0-9a-z./?=_-]+" > ngrok_url.txt
+
+      - name: Run Nikto Scan
+        run: nikto -h $(cat ngrok_url.txt) -Format htm -output ${{ github.workspace }}/nikto-report.html
+
+      - name: Upload Nikto Scan Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: nikto-report
+          path: ${{ github.workspace }}/nikto-report.html

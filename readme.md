@@ -2,22 +2,22 @@
 
 CI/CD Pipeline for Flask Api 
 
-Build ───▶
+Build ─── ▼
 
            │
            └───► 3 x Unit Tests 
 
-"SAST" ───▶
+"SAST" ─── ▼
 
            │
            └───►- CodeQL Analysis (Python)
 
-"SCA" ───▶
+"SCA" ─── ▼
 
           │
           └───► Dependency Check
  
-"DAST" ───▶
+"DAST" ─── ▼
 
            │
            └───► Hawk Scan

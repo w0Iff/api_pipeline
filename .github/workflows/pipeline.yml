@@ -29,12 +29,13 @@ jobs:
     - name: Setup Java
       uses: actions/setup-java@v2
       with:
-        distribution: 'adopt'
-        java-version: '11'
+      distribution: 'adopt'
+      java-version: '11'
 
     - name: Run Dependency-Check
       run: |
         mkdir dc-report
-        curl -L -o dependency-check.zip https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.0.2-release.zip
-        unzip dependency-check.zip -d dc
-        dc/bin/dependency-check.bat --scan . --format ALL --out dc-report
+        Invoke-WebRequest -Uri https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.0.2-release.zip -OutFile dependency-check.zip
+        Expand-Archive -Path dependency-check.zip -DestinationPath dc
+       .\dc\bin\dependency-check.bat --scan . --format ALL --out dc-report
+  shell: pwsh

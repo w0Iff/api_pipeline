@@ -105,7 +105,7 @@ jobs:
           cat ngrok_log.txt | grep -Eo "http://[0-9a-z./?=_-]+" > ngrok_url.txt || echo "Ngrok URL not found"
 
       - name: Run Nikto Scan
-        run: nikto -h $(cat ngrok_url.txt) -Format htm -output ${{ github.workspace }}/nikto-report.html
+        run: nikto -host "$(cat ngrok_url.txt)" -Format htm -output "${{ github.workspace }}/nikto-report.html
 
       - name: Upload Nikto Scan Report
         uses: actions/upload-artifact@v2

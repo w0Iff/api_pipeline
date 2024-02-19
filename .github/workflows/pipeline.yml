@@ -26,27 +26,6 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s testy -p '*_user.py'
 
-  security_scan:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-
-      - name: Run Dependency-Check
-        run: |
-          wget https://github.com/jeremylong/DependencyCheck/releases/download/v9.0.0/dependency-check-9.0.0-release.zip
-          unzip -qq dependency-check-9.0.0-release.zip
-          cd dependency-check
-          ./bin/dependency-check.sh --scan ../requirements.txt
-
   analyze:
     name: CodeQL Analysis
     
@@ -78,3 +57,25 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
+
+  depcheck:
+    name: Dependency-Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'API FLASK'
+          path: '.'
+          format: 'HTML'
+          others: ''
+
+      - name: Upload Dependency-Check Report
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports

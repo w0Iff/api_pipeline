@@ -100,9 +100,9 @@ jobs:
 
       - name: Start ngrok and get public URL
         run: |
-          nohup ngrok http 80 --log=stdout > ngrok_log.txt 2>&1 &
-          sleep 5  # Wait for ngrok to be ready
-          cat ngrok_log.txt | grep -Eo "http://[0-9a-z./?=_-]+" > ngrok_url.txt
+          nohup ngrok http 8080 --log=stdout > ngrok_log.txt 2>&1 &
+          sleep 10  # Wait for ngrok to be ready
+          cat ngrok_log.txt | grep -Eo "http://[0-9a-z./?=_-]+" > ngrok_url.txt || echo "Ngrok URL not found"
 
       - name: Run Nikto Scan
         run: nikto -h $(cat ngrok_url.txt) -Format htm -output ${{ github.workspace }}/nikto-report.html

@@ -1,4 +1,4 @@
-# -- stackhawk configuration for api_flask --
+# -- stackhawk configuration for  --
 app:
   # -- An applicationId obtained from the StackHawk platform. --
   applicationId: 8172d7d2-b1d6-4f2b-8b6a-61bd31188bec # (required)

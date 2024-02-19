@@ -26,22 +26,15 @@ jobs:
     - name: Run testy
       run: python -m unittest discover -s testy -p '*_user.py'
 
-    - name: Run ZAP Scan
-      run: |
-        Invoke-WebRequest -Uri https://github.com/zaproxy/zaproxy/releases/download/w2022-03-28/ZAP_WEEKLY_D-2022-03-28.zip -OutFile ZAP_WEEKLY_D-2022-03-28.zip
-        Expand-Archive -Path ZAP_WEEKLY_D-2022-03-28.zip -DestinationPath ZAP_WEEKLY_D-2022-03-28
-
-        Start-Process -FilePath "ZAP_WEEKLY_D-2022-03-28/zap.bat" -ArgumentList "-daemon -port 8080 -host 127.0.0.1 -config api.disablekey=true" -NoNewWindow -PassThru
-
-        Start-Sleep -Seconds 30
-
-        ZAP_WEEKLY_D-2022-03-28/zap-cli.bat execute baseline -t http://localhost:5000 -g gen.conf -r report.html
-        ZAP_WEEKLY_D-2022-03-28/zap-cli.bat report -o report.md -f markdown
-
-    - name: Upload ZAP Reports
-      uses: actions/upload-artifact@v2
+    - name: Setup Java
+      uses: actions/setup-java@v2
       with:
-        name: zap-reports
-        path: |
-          ZAP_WEEKLY_D-2022-03-28/report.html
-          ZAP_WEEKLY_D-2022-03-28/report.md
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Run Dependency-Check
+      run: |
+        mkdir dc-report
+        curl -L -o dependency-check.zip https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.0.2-release.zip
+        unzip dependency-check.zip -d dc
+        dc/bin/dependency-check.bat --scan . --format ALL --out dc-report

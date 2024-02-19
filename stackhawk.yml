@@ -1,7 +1,7 @@
 # -- stackhawk configuration for api_flask --
 app:
   # -- An applicationId obtained from the StackHawk platform. --
-  applicationId: 1b2b92f8-f970-4e39-8dc9-26398324f96b # (required)
+  applicationId: 8172d7d2-b1d6-4f2b-8b6a-61bd31188bec # (required)
   # -- The environment for the applicationId defined in the StackHawk platform. --
   env: Development # (required)
   # -- The url of your application to scan --
@@ -9,6 +9,11 @@ app:
 
 
 # -- Customized Configuration for GraphQL/SOAP/OpenAPI, add here --
+  # openApiConf:
+  #   path: /swagger.json # OR...
+#       filePath: openApi.json
+  # autoPolicy: true
+  # autoInputVectors: true
   # Configuration Docs: https://docs.stackhawk.com/hawkscan/configuration/
 
 # -- If Authenticated Scanning is needed, add here --

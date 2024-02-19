@@ -26,6 +26,27 @@ jobs:
       - name: Run tests
         run: python -m unittest discover -s testy -p '*_user.py'
 
+  security_scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Run Dependency-Check
+        run: |
+          wget https://dl.bintray.com/jeremy-long/owasp/dependency-check-6.1.2-release.zip
+          unzip -qq dependency-check-6.1.2-release.zip
+          cd dependency-check
+          ./bin/dependency-check.sh --scan ../requirements.txt
+
   analyze:
     name: CodeQL Analysis
     
@@ -57,29 +78,3 @@ jobs:
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
-
-  dependency-review:
-  
-    name: Dependency review
-    on:
-      push:
-        branches:
-          - main
-    permissions:
-      contents: read
-
-    jobs:
-      dependency-review:
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
-          - name: Dependency Review
-            uses: actions/dependency-review-action@v4
-            with:
-              comment-summary-in-pr: always
-              repo-token: ${{ secrets.GITHUB_TOKEN }}
-              retry-on-snapshot-warnings: false
-              retry-on-snapshot-warnings-timeout: 120
-              warn-only: false
